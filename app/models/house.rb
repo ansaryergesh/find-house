@@ -1,5 +1,5 @@
 class House < ApplicationRecord
-    dependent: :destroy
 
-    validates_presense_of :name, :price
+
+    validates_presence_of :name, :price
 end
