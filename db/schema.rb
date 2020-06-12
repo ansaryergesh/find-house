@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 2020_06_11_064156) do
     t.string "name"
     t.decimal "price"
     t.decimal "rating"
-    t.datetime "created_at", precision: 6, null: false
+    t.datetime "created_at", precision: 6, null: false 
     t.datetime "updated_at", precision: 6, null: false
   end
 
