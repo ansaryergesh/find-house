@@ -11,7 +11,7 @@ class HousesController < ApplicationController
         end
 
         def create
-            @house = House.create!(house_params)
+            @house = current_user.events.create!(house_params)
             json_response(@house, :created)
         end
 
