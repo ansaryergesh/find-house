@@ -31,7 +31,7 @@ class HousesController < ApplicationController
     
         def house_params
             # whitelist params
-            params.permit(:name, :price, :rating)
+            params.permit(:name, :price, :user_id)
         end
     
         def set_house
