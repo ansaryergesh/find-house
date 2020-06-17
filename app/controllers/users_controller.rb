@@ -7,7 +7,7 @@ class UsersController < ApplicationController
     response = { message: 'Congratulations! Registred successfully'}
     render json: response, status: :created 
    else
-    render json: @user.errors, status: :bad
+    render json: @user.errors.full_messages, status: :bad
    end 
   end
 

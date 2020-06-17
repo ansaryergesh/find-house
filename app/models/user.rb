@@ -3,7 +3,8 @@ class User < ApplicationRecord
    has_many :favourites, foreign_key: :user_id
 
    validates_presence_of :name, :email, :password_digest
-   validates :email, uniqueness: true
+   validates :email, uniqueness: true,
+   validates :password, length: { minimum: 8 }
 
    has_secure_password
 
