@@ -2,27 +2,21 @@ import * as ActionTypes from '../actionTypes';
 const initialState = {
     currentUser: null,
     loggedIn: false,
-    authenticatingUser: false,
     failedLogin: false,
     error: null,
 }
 
-const usersReducer = /*FUNCTION*/ (state = defaultState, action) => {
+export const usersReducer = /*FUNCTION*/ (state = initialState, action) => {
   switch (action.type) {
     // TODO: move to types
     case ActionTypes.SET_CURRENT_USER:
       //action.payload {username: 'Chandler Bing', bio: 'my user bio', avatar: 'some image url'}
-      return { ...state, user: action.payload, loggedIn: true, authenticatingUser: false }
-    case ActionTypes.AUTHENTICATING_USER: //tells the app we're fetching
-      return { ...state, authenticatingUser: true }
-    case ActionTypes.AUTHENTICATED_USER:
-      return { ...state, authenticatingUser: false }
+      return { ...state, user: action.payload, loggedIn: true, }
     case ActionTypes.FAILED_LOGIN: //for error handling
       return {
         ...state,
         failedLogin: true,
         error: action.payload,
-        authenticatingUser: false
       }
     default:
       return state

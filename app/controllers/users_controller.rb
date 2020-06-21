@@ -3,10 +3,11 @@ class UsersController < ApplicationController
      # POST /register
   def register
     @user = User.create(user_params)
-   if @user.save
+   if @user.valid?
     response = { message: 'Congratulations! Registred successfully'}
-    render json: response, status: :created 
+    render json: response, status: :created
    else
+    response = {message: 'Something went wrong'}
     render json: @user.errors.full_messages, status: :bad
    end 
   end

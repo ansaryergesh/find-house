@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import Register from './auth/Register';
-import Login from './auth/Login';
+import Login from './auth/loginForm';
 import Home from './Home';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import {connect} from 'react-redux';
 import { actions } from 'react-redux-form';
-import {registerAccount,userLoginFetch } from '../redux/actionCreators';
+import {registerAccount,loginUser } from '../redux/actionCreators';
 
 const mapStateToProps = state => {
     return {}
@@ -13,8 +13,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch) => ({
     registerAccount: (registration) => dispatch(registerAccount(registration)),
-    userLoginFetch: (account) => dispatch(userLoginFetch(account)),
-    resetFeedbackForm: () => { dispatch(actions.reset('registration'))},
+    loginUser: (login) => dispatch(loginUser(login)),
+    resetLog: () => {dispatch(actions.reset('login'))},
+    resetForm: () => { dispatch(actions.reset('registration'))},
 })
 class MainComponent extends Component {
     constructor(props) {
@@ -26,8 +27,8 @@ class MainComponent extends Component {
            <div>
                   <Switch>
                             <Route path="/home" component={() => <Home />} />
-                            <Route path='/register' component={() => <Register registerAccount={this.props.registerAccount} resetFeedbackForm={this.props.resetFeedbackForm}/>}/>
-                            <Route path ='/login' component={()=> <Login userLoginFetch={this.props.userLoginFetch}/>}/>
+                            <Route path='/register' component={() => <Register registerAccount={this.props.registerAccount} resetForm={this.props.resetForm}/>}/>
+                            <Route path ='/login' component={()=> <Login loginUser={this.props.loginUser} resetLog={this.props.resetLog}/>}/>
                             <Redirect to="/home" />
                 </Switch>
            </div>

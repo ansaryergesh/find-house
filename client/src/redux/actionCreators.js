@@ -39,9 +39,11 @@ export const registerAccount = (registration) => (dispatch) => {
         .then(data=>{
             if(data.message) {
                 console.log(data.message)
-            }else {
                 localStorage.setItem('token', data.jwt)
                 dispatch(loginUser(data.newAccount))
+            }else {
+                localStorage.setItem('token', data.jwt)
+                dispatch(loginUser(data.registration))
             }
         })
         .then(response => dispatch(addAccount(response)))
@@ -55,42 +57,41 @@ export const registerFailed = (errmess) => ({
     payload: errmess
 });
 
-// flash messages
+// // login
 
-export const addFlashMessage = (message) => ({
-    type: ActionTypes.ADD_FLASH_MESSAGE,
-    payload: message
-})
-
-export const deleteFlashMessage = (id) => ({
-    type: ActionTypes.DELETE_FLASH_MESSAGE,
-    payload: id
-})
-
-// login
-const loginUser = userObj => ({
-    type: ActionTypes.LOGIN_USER,
-    payload: userObj
-})
-
-export const userLoginFetch = user => {
-    return dispatch => {
-        return fetch(baseUrl + 'auth/login', {
-            method: "POST",
+export const loginUser = (user) => {
+    return (dispatch) => {
+        fetch(baseUrl + 'auth/login', {
+            method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
+              'Content-Type': 'application/json',
+              Accept: 'application/json'
             },
-            body: JSON.stringify({user})
+            body: JSON.stringify(user),
         })
-          .then(resp => resp.json())
-          .then(data=> {
-              if(data.message) {
-                  console.log(data.message)
-              }else {
-                  localStorage.setItem('token', data.jwt)
-                  dispatch(loginUser(data.user))
-              }
-          })
+            .then(response => {
+                if(response.ok) {
+                    return response.json()
+                }else {
+                    throw response
+                }
+            })
+            .then(JSONResponse => {
+                localStorage.setItem('token', JSONResponse.access_token)
+                dispatch(setCurrentUser(JSONResponse.user))
+            })
+            .catch(r => r.json().then(e => dispatch({ type: ActionTypes.FAILED_LOGIN, payload: e.message })))
+        
     }
 }
+
+  export const failedLogin = (errorMsg) => ({
+    type: ActionTypes.FAILED_LOGIN,
+    payload: errorMsg
+  })
+
+
+const setCurrentUser = userObj => ({
+    type: ActionTypes.SET_CURRENT_USER,
+    payload: userObj
+})
