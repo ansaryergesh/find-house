@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
 import { Control, LocalForm, Errors, Form } from 'react-redux-form';
+import { withRouter, Redirect } from 'react-router';
 import { Breadcrumb, BreadcrumbItem,
     Button, Row, Col, Label } from 'reactstrap';
 const required = (val) => val && val.length;
 const validEmail = (val) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val);
 
 class loginForm extends Component {
+    state = { email: '', password: '' }
     constructor(props) {
         super(props);
 
@@ -14,13 +16,16 @@ class loginForm extends Component {
 
     handleSubmit(values) {
         this.props.loginUser({email: 'yergeshovansar@gmail.com', password: 'password'});
+        // this.props.loginUser({email: this.state.email, password: this.state.password})
         console.log(values);
         this.props.resetLog();
     }
 
     render () {
-        
-        return(
+        return this.props.loggedIn ? (
+            <Redirect to="/home" />
+          ) : 
+        (
             <div className='container'>
                 <div className='row col-12'>
                     <h3 className='text-center'>Login</h3>

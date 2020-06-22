@@ -37,12 +37,10 @@ export const registerAccount = (registration) => (dispatch) => {
         )
         .then(response => response.json())
         .then(data=>{
-            if(data.message) {
+            if(data.message!== 'Congratulations! Registred successfully') {
                 console.log(data.message)
-                localStorage.setItem('token', data.jwt)
-                dispatch(loginUser(data.newAccount))
             }else {
-                localStorage.setItem('token', data.jwt)
+                localStorage.setItem('token', data.access_token)
                 dispatch(loginUser(data.registration))
             }
         })
@@ -79,6 +77,7 @@ export const loginUser = (user) => {
             .then(JSONResponse => {
                 localStorage.setItem('token', JSONResponse.access_token)
                 dispatch(setCurrentUser(JSONResponse.user))
+                console.log(JSONResponse.user)
             })
             .catch(r => r.json().then(e => dispatch({ type: ActionTypes.FAILED_LOGIN, payload: e.message })))
         

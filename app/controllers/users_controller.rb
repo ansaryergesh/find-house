@@ -4,7 +4,10 @@ class UsersController < ApplicationController
   def register
     @user = User.create(user_params)
    if @user.valid?
-    response = { message: 'Congratulations! Registred successfully'}
+    auth_token = AuthenticateUser.new(params[:email], params[:password]).call
+    response = { message: 'Congratulations! Registred successfully',
+      access_token: auth_token            
+    }
     render json: response, status: :created
    else
     response = {message: 'Something went wrong'}
@@ -37,7 +40,8 @@ class UsersController < ApplicationController
     if command.success?
       render json: {
         access_token: command.result,
-        message: 'Login Successful'
+        message: 'Login Successful',
+        user: current_user
       }
     else
       render json: { error: command.errors }, status: :unauthorized

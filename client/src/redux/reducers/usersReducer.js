@@ -11,7 +11,7 @@ export const usersReducer = /*FUNCTION*/ (state = initialState, action) => {
     // TODO: move to types
     case ActionTypes.SET_CURRENT_USER:
       //action.payload {username: 'Chandler Bing', bio: 'my user bio', avatar: 'some image url'}
-      return { ...state, user: action.payload, loggedIn: true, }
+      return { ...state, currentUser: action.payload, loggedIn: true, }
     case ActionTypes.FAILED_LOGIN: //for error handling
       return {
         ...state,
